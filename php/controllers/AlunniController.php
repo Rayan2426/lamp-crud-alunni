@@ -31,6 +31,25 @@ class AlunniController{
         $response->getBody()->write(json_encode(array("5DIA"=>$results)));
         return $response->withHeader("Content-Type","application/json");
     }
+
+    public function create(Request $request, Response $response, $args){
+        $conn = new mysqli("my_mariadb","root","ciccio","scuola");
+
+        $alunno = json_decode($request->getBody(), true);
+
+        //curl -X POST localhost:8080/alunni -d "{'cf':'gg','nome':'carlo','cognome':'giannini','eta':39}"
+        $c = $data['cf'];
+        $n = $data['nome'];
+        $s = $data['conome'];
+        $e = $data['eta'];
+
+        $sql = "INSERT INTO alunni(cf,nome,cognome,eta) VALUES ('$c','$n','$s','$e')";
+        $conn->query($sql);
+
+        $response->getBody()->write($alunno);
+
+        return $response->withStatus(200)->withHeader("Content-Type","application/json");
+    }
 }
 
 ?>

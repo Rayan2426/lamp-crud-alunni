@@ -2,29 +2,34 @@
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-include_once("./Alunno.php");
-include_once("./Classe.php");
-
 class AlunniController{
     
 
     public function index(Request $request, Response $response, $args){
-        $classe = new Classe("5dia");
-        $response->getBody()->write($classe->getAll());
-        return $response;
+
+        $conn = new mysqli("my_mariadb","root","ciccio","scuola");
+
+        $sql = "SELECT * FROM alunni";
+        $result = $conn->query($sql);
+
+        $results = $result->fetch_all();
+
+        $response->getBody()->write(json_encode(array("5DIA"=>$results)));
+        
+        return $response->withHeader("Content-Type","application/json");
     }
-
-
     public function show(Request $request, Response $response, $args){
-        $classe = new Classe("5dia");
-        $cf = $args['cf'];
+        $cf = $args["cf"];
 
-        $alunno = $classe->getAlunno($cf);
-        $body = $alunno == null ? "non sono presenti alunni" : $alunno->getAll();
+        $conn = new mysqli("my_mariadb","root","ciccio","scuola");
 
-        $response->getBody()->write($body);
+        $sql = "SELECT * FROM alunni WHERE cf = '$cf'";
+        $result = $conn->query($sql);
 
-        return $response;
+        $results = $result->fetch_all();
+
+        $response->getBody()->write(json_encode(array("5DIA"=>$results)));
+        return $response->withHeader("Content-Type","application/json");
     }
 }
 

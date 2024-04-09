@@ -22,4 +22,14 @@ $app->get('/alunni/{cf}/',"AlunniController:show");
 $app->post('/alunni',"AlunniController:create");
 $app->post('/alunni/',"AlunniController:create");
 
+//PUT
+
+$app->put('/alunni/{cf}',"AlunniController:update");
+$app->put('/alunni/{cf}/',"AlunniController:update");
+
+//DELETE
+
+$app->delete('/alunni/{cf}',"AlunniController:delete");
+$app->delete('/alunni/{cf}/',"AlunniController:delete");
+
 $app->run();
